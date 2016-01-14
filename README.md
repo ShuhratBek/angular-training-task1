@@ -5,11 +5,10 @@ Task1 for Training Angular (EPAM)
  
 Project requirements:
 - <firstname_lastname>
-                - <main_file>.js
-                - index.html
-                - package.json
+	- <main_file>.js
+	- index.html
+	- package.json
 In the case of specific configuration of your project - provide list of commands with comments.
-======================================
  
 - download and install nodejs 4x version
 - configure package.json
