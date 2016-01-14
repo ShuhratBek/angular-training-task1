@@ -1,0 +1,28 @@
+{
+  "name": "angular-training-task1",
+  "version": "1.0.0",
+  "description": "Task1 for Angular Training",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShuhratBek/angular-training-task1.git"
+  },
+  "author": "ShuhratBek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShuhratBek/angular-training-task1/issues"
+  },
+  "homepage": "https://github.com/ShuhratBek/angular-training-task1#readme",
+  "dependencies": {
+    "angular": "^1.4.7",
+    "angular-animate": "^1.4.7",
+    "angular-aria": "^1.4.7",
+    "angular-material": "^1.0.1",
+    "angular-messages": "^1.4.7",
+    "angular-sanitize": "^1.4.",
+    "moment": "^2.11.1"
+  }
+}

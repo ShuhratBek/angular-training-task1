@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html ng-app="task1App">
+<head>
+    <meta charset="utf-8">
+    <title>Angular Training task1 - ShuhratBek</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="./node_modules/angular-material/angular-material.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body ng-controller="MainCtrl as mc">
+	<div layout="column" layout-fill>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<span>Angular Task1</span>
+				<span flex></span>
+				<span>ShuhratBek</span>
+			</div>
+		</md-toolbar>
+		<md-content class="content" flex>
+			<div layout="row" layout-xs="column" layout-align="center top">
+				<md-card flex="50" flex-xs="90" layout-padding>
+					<form name="form" ng-submit="form.$valid && mc.submit()" novalidate>
+						<md-input-container class="md-icon-float md-block" flex>
+							<label>Username</label>
+							<md-icon md-font-library="material-icons">person</md-icon>
+							<input ng-model="mc.user.name" name="name" type="text" required minlength="3" md-maxlength="30" ng-pattern="/^[A-Z][a-zA-Z_ ]+$/">
+							<div ng-messages="form.name.$error" multiple>
+								<div ng-message="required">This is required.</div>
+								<div ng-message="minlength">The name has to be more than 3 characters.</div>
+								<div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+								<div ng-message="pattern">Incorrect format</div>
+							</div>
+						</md-input-container>
+						<md-input-container class="md-icon-float md-block" flex>
+							<label>Age</label>
+							<md-icon md-font-library="material-icons">all_inclusive</md-icon>
+							<input ng-model="mc.user.age" name="age" type="text" age required>
+							<div ng-messages="form.age.$error" multiple>
+								<div ng-message="required">This is required.</div>
+								<div ng-message="adult">age should be between 18 and 65</div>
+								<div ng-message="incorrect">age should be number</div>
+							</div>
+						</md-input-container>
+						<md-input-container class="md-icon-float md-block" flex>
+							<label>Birthday</label>
+							<md-icon md-font-library="material-icons">cake</md-icon>
+							<input ng-model="mc.user.birthday" name="birthday" birthday type="text" required>
+							<div ng-messages="form.birthday.$error" multiple>
+								<div ng-message="required">This is required.</div>
+								<div ng-message="incorrect">Incorrect date format</div>
+							</div>
+						</md-input-container>
+						<md-input-container class="md-icon-float md-block" flex>
+							<label>Greeting</label>
+							<md-icon md-font-library="material-icons">notifications</md-icon>
+							<input ng-model="mc.user.greeting" type="text">
+						</md-input-container>
+						<div layout="column" layout-align="center">
+							<md-button class="md-raised md-primary" type="submit">Submit</md-button>
+						</div>
+					</form>
+				</md-card>
+				<md-card flex layout-padding>
+					<h3 class="md-headline">Result:</h3>
+					<div>Username: {{mc.result.name}}</div>
+					<div>Age: {{mc.result.age}}</div>
+					<div>Birthday: {{mc.result.birthday}}</div>
+					<div>Greeting: {{mc.result.greeting}}</div>
+				</md-card>
+			</div>
+		</md-content>
+	</div>
+    <script src="./node_modules/angular/angular.js"></script>
+    <script src="./node_modules/angular-aria/angular-aria.js"></script>
+    <script src="./node_modules/angular-animate/angular-animate.js"></script>
+    <script src="./node_modules/angular-messages/angular-messages.js"></script>
+    <script src="./node_modules/angular-sanitize/angular-sanitize.js"></script>
+    <script src="./node_modules/angular-material/angular-material.js"></script>
+    <script src="./node_modules/moment/moment.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
