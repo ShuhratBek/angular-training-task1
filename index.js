@@ -1,4 +1,3 @@
-(function() {
 	'use strict';
 
 	angular
@@ -15,24 +14,57 @@
 				.theme('default')
 				.primaryPalette('teal');
 		})
-		.controller("MainCtrl", MainCtrl)
-		.directive('age', function() {
+		.directive('wordValidation', function() {
 			return {
 				require: 'ngModel',
 				link: function(scope, elm, attrs, ctrl) {
 					// validate incorrect
 					ctrl.$validators.incorrect = function(modelValue, viewValue) {
-				        return ctrl.$isEmpty(viewValue) || /[0-9]/.test(viewValue);
-				    };
-
-				    //validate adult
-					ctrl.$validators.adult = function(modelValue, viewValue) {
-				        return (viewValue >= 18 && viewValue <= 65);
+						return (/^([A-Z][a-z]+)\s?([A-Z][a-z]+)?$/).test(viewValue);
 				    };
 				}
 			};
 		})
-		.directive('birthday', function($window) {
+		.directive('ageValidation', function() {
+			return {
+				require: 'ngModel',
+				link: function(scope, elm, attrs, ctrl) {
+					// validate incorrect
+					ctrl.$validators.incorrect = function(modelValue, viewValue) {
+				        return isNumber(viewValue);
+				    };
+
+					ctrl.$validators.noSpaces = function(modelValue, viewValue) {
+						return (/^[^\s]+$/).test(viewValue);
+					};
+
+  					if (angular.isDefined(attrs.ageMin)) {
+						ctrl.$validators.ageMin = function(modelValue, viewValue) {
+							if(isNumber(viewValue)) {
+					        	return  toInt(attrs.ageMin) <= toInt(viewValue);
+					        }
+					    };
+  					}
+
+  					if (angular.isDefined(attrs.ageMax)) {
+						ctrl.$validators.ageMax = function(modelValue, viewValue) {
+							if(isNumber(viewValue)) {
+					        	return toInt(viewValue) <= toInt(attrs.ageMax);
+					        }
+					    };
+  					}
+
+  					function toInt(val) {
+  						return parseInt(val, 10);
+  					}
+
+  					function isNumber(val) {
+  						return (/^(?!\s.*$)[1-9]+[0-9]+(?!\s.*$)$/).test(val);
+  					}
+				}
+			};
+		})
+		.directive('birthdayValidation', function($window) {
 			return {
 				require: 'ngModel',
 				link: function(scope, elm, attrs, ctrl) {
@@ -51,9 +83,12 @@
 				    };
 				}
 			};
-		});
+		})
+		.controller("MainCtrl", MainCtrl);
 
-	function MainCtrl(){
+	MainCtrl.$inject = ['$mdToast'];
+
+	function MainCtrl($mdToast) {
 		var vm = this;
 		// The controllerAs syntax uses this inside controllers which gets bound to $scope
 		// https://github.com/johnpapa/angular-styleguide#style-y031
@@ -61,8 +96,14 @@
 		vm.result = {};
 
 		// Submits form
-		vm.submit = function(){
-			angular.copy(vm.user, vm.result);
+		vm.submit = function(isValid) {
+			if(isValid) {
+				angular.copy(vm.user, vm.result);
+				$mdToast.show(
+					$mdToast
+						.simple()
+						.textContent('Form Submitted!')
+				);
+			}
 		};
 	}
-})();

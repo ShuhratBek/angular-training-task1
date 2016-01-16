@@ -12,9 +12,9 @@
     <!-- Main style -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body ng-controller="MainCtrl as mc">
+<body ng-controller="MainCtrl as mc" ng-cloak>
 	<div layout="column" layout-fill>
-		<!-- BEGIN: ToolBar -->
+		<!-- ToolBar -->
 		<md-toolbar>
 			<div class="md-toolbar-tools">
 				<span>Angular Task1</span>
@@ -22,39 +22,45 @@
 				<span>ShuhratBek</span>
 			</div>
 		</md-toolbar>
-		<!-- END: ToolBar -->
-		<!-- BEGIN: Content -->
+		<!-- /ToolBar -->
+		<!-- Content -->
 		<md-content class="content" flex>
 			<div layout="row" layout-xs="column" layout-align="center top">
-				<!-- BEGIN: Form block -->
+				<!-- Form block -->
 				<md-card flex="50" flex-xs="90" layout-padding>
-					<form name="form" ng-submit="form.$valid && mc.submit()" novalidate>
+					<form name="form" ng-submit="mc.submit(form.$valid)" novalidate>
 						<md-input-container class="md-icon-float md-block" flex>
 							<label>Username</label>
 							<md-icon md-font-library="material-icons">person</md-icon>
-							<input ng-model="mc.user.name" name="name" type="text" required minlength="3" md-maxlength="30" ng-pattern="/^[A-Z][a-zA-Z_ ]+$/">
-							<div ng-messages="form.name.$error" multiple>
+							<input ng-model="mc.user.name" name="name" type="text" required minlength="3" md-maxlength="30" word-validation>
+							<div class="hint">more than 3 symbols, only first letter in uppercase of the word, only letters</div>
+							<div ng-messages="form.name.$error" ng-if="form.name.$touched" multiple>
 								<div ng-message="required">This is required.</div>
 								<div ng-message="minlength">The name has to be more than 3 characters.</div>
 								<div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
-								<div ng-message="pattern">Incorrect format</div>
+								<div ng-message="incorrect">Incorrect format</div>
+								<div ng-message="oneUpperCase">Must contain at least one uppercase letter</div>
 							</div>
 						</md-input-container>
 						<md-input-container class="md-icon-float md-block" flex>
 							<label>Age</label>
 							<md-icon md-font-library="material-icons">all_inclusive</md-icon>
-							<input ng-model="mc.user.age" name="age" type="text" age required>
-							<div ng-messages="form.age.$error" multiple>
-								<div ng-message="required">This is required.</div>
-								<div ng-message="adult">age should be between 18 and 65</div>
-								<div ng-message="incorrect">age should be number</div>
+							<input ng-model="mc.user.age" name="age" type="text" required age-min="18" age-max="65" age-validation ng-trim="false">
+							<div class="hint">between 18 and 65</div>
+							<div ng-messages="form.age.$error" ng-if="form.age.$touched" multiple>
+								<div ng-message="required">This is requirerd.</div>
+								<div ng-message="noSpaces">Cannot contain any spaces</div>
+								<div ng-message="incorrect">Age should be number</div>
+								<div ng-message="ageMin">You're so young!</div>
+								<div ng-message="ageMax">You're so old!</div>
 							</div>
 						</md-input-container>
 						<md-input-container class="md-icon-float md-block" flex>
 							<label>Birthday</label>
 							<md-icon md-font-library="material-icons">cake</md-icon>
-							<input ng-model="mc.user.birthday" name="birthday" birthday type="text" required>
-							<div ng-messages="form.birthday.$error" multiple>
+							<input ng-model="mc.user.birthday" name="birthday" type="text" required birthday-validation>
+							<div class="hint">date format: 15 January 2015 (DD MMMM YYYY)</div>
+							<div ng-messages="form.birthday.$error" ng-if="form.birthday.$touched" multiple>
 								<div ng-message="required">This is required.</div>
 								<div ng-message="incorrect">Incorrect date format</div>
 							</div>
@@ -65,12 +71,13 @@
 							<input ng-model="mc.user.greeting" type="text">
 						</md-input-container>
 						<div layout="column" layout-align="center">
-							<md-button class="md-raised md-primary" type="submit">Submit</md-button>
+							<md-button class="md-raised md-primary" type="submit" ng-disabled="!form.$valid">Submit</md-button>
+							<div class="hint">to enable Submit button, please fill all required fields</div>
 						</div>
 					</form>
 				</md-card>
-				<!-- END: Form block -->
-				<!-- BEGIN: Result block -->
+				<!-- /Form block -->
+				<!-- Result block -->
 				<md-card flex layout-padding>
 					<md-subheader class="md-primary">Result</md-subheader>
 					<md-list layout-padding>
@@ -100,10 +107,10 @@
 						</md-list-item>
 					</md-list>
 				</md-card>
-				<!-- END: Result block -->
+				<!-- /Result block -->
 			</div>
 		</md-content>
-		<!-- END: Content -->
+		<!-- /Content -->
 	</div>
     <script src="./node_modules/angular/angular.js"></script>
     <script src="./node_modules/angular-aria/angular-aria.js"></script>
